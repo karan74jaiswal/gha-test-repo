@@ -111,7 +111,7 @@ jobs:
   FailedResults:
     runs-on: ubuntu-latest
     needs: [deploying, lint]
-    if: ${{failure() && needs.deploying.result == 'failure'}}
+    if: ${{failure()}}
     steps:
       - name: Printing Tests Resultes
         run: echo 'Testing Failed'
