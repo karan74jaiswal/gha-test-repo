@@ -50,7 +50,7 @@ jobs:
 
       - name: Getting the Job Output
         id: publish
-        run: find /*.json -type f -execdir echo "::set-output name=script-file::{}" ";"
+        run: find *.json -type f -execdir echo "::set-output name=script-file::{}" ";"
   
   build:
     needs: test
