@@ -99,7 +99,7 @@ jobs:
       - name: Downloading Artifacts
         uses: actions/download-artifact@v2.1.1
         with:
-          name: dist
+          name: build_files
 
       - name: Printing Outputs
         run: ls
