@@ -3,10 +3,10 @@ on:
   workflow_call:
     inputs:
       testArtifactName:
-        description: Its the test report we ran Earlier
-        type: string
+        description: no description for this artifact
         required: false
-        default: testFiles
+        type: string
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
