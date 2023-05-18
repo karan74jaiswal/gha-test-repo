@@ -57,6 +57,8 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       testArtifactName: test_report
+    secrets:
+      MONGODB_DB_USERNAME: "buckjwnhcown"
 
   lint:
     runs-on: ubuntu-latest
@@ -100,8 +102,6 @@ jobs:
         uses: actions/download-artifact@v2.1.1
         with:
           name: build_files
-        secrets:
-          MONGODB_DB_USERNAME: "buckjwnhcown"
 
       - name: Printing Outputs
         run: ls
