@@ -6,7 +6,8 @@ on:
         description: no description for this artifact
         required: false
         type: string
-
+    secrets:
+      MONGODB_DB_USERNAME:
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -38,3 +39,6 @@ jobs:
         with:
           name: build_files
           path: dist
+
+      - name: Printing Secrets
+        run: echo "${{secrets.MONGODB_DB_USERNAME}}"

@@ -100,6 +100,7 @@ jobs:
         uses: actions/download-artifact@v2.1.1
         with:
           name: build_files
+          MONGODB_DB_USERNAME: ${{secrets.MONGODB_DB_USERNAME}}
 
       - name: Printing Outputs
         run: ls
