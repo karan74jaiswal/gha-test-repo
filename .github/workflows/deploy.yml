@@ -1,0 +1,22 @@
+name: build
+on: workflow_call
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3.5.2
+
+      - name: Caching Dependencies
+        id: cache
+        uses: actions/cache@v1.2.1
+        with:
+          path: node_modules
+          key: node-modules-cache-dependencies-${{hashFiles('**/package-lock.json')}}
+
+      - name: Installing Dependencies
+        if: ${{steps.cache.outputs.cache-hit != 'true'}}
+        run: npm ci
+
+      - name: Building
+        run: npm run build

@@ -2,13 +2,13 @@
 name: Testing
 
 # Giving the event on which the workflow will be triggered
-on: 
+on:
   workflow_dispatch:
 
   push:
     branches:
       - main
-  
+
   pull_request:
     branches:
       - main
@@ -36,14 +36,14 @@ jobs:
       - name: Installing Dependencies
         if: ${{steps.cache.outputs.cache-hit != 'true'}}
         run: npm ci
-      
+
       - name: Running Tests
         id: running-tests
         run: npm run test
 
       - name: Upload Test Report
         if: ${{failure() && steps.running-tests.outcome == 'failure'}}
-        uses:  actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: test-report
           path: test.json
@@ -51,34 +51,14 @@ jobs:
       - name: Getting the Job Output
         id: publish
         run: find *.json -type f -execdir echo "::set-output name=script-file::{}" ";"
-  
+
   build:
     needs: test
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout Code
-        uses: actions/checkout@v3.5.2
-
-      - name: Caching Dependencies
-        id: cache
-        uses: actions/cache@v1.2.1
-        with:
-          path: node_modules
-          key: node-modules-cache-dependencies-${{hashFiles('**/package-lock.json')}}
-
-      - name: Installing Dependencies
-        if: ${{steps.cache.outputs.cache-hit != 'true'}}
-        run: npm ci
-    
-      - name: Building
-        run: npm run build
-
-      - name: reusing job outputs
-        run: echo "${{needs.test.outputs.script-file}}"
+    uses: ./.github/workflows/deploy.yml
 
   lint:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v3.5.2
 
@@ -92,7 +72,7 @@ jobs:
       - name: Installing Dependencies
         if: ${{steps.cache.outputs.cache-hit != 'true'}}
         run: npm ci
-    
+
       - name: linting
         run: npm run lint
 
@@ -113,10 +93,10 @@ jobs:
       - name: Installing Dependencies
         if: ${{steps.cache.outputs.cache-hit != 'true'}}
         run: npm ci
-  
+
       - name: Deployment
         run: echo 'The Application has been deployed Successfully'
-  
+
   FailedResults:
     runs-on: ubuntu-latest
     needs: [deploying, lint]
