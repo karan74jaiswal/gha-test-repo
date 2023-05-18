@@ -1,5 +1,12 @@
 name: build
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      testArtifactName:
+        description: Its the test report we ran Earlier
+        type: string
+        required: false
+        default: testFiles
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -17,6 +24,11 @@ jobs:
       - name: Installing Dependencies
         if: ${{steps.cache.outputs.cache-hit != 'true'}}
         run: npm ci
+
+      - name: Downloading Artifacts
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: ${{ inputs.testArtifactName }}
 
       - name: Building
         run: npm run build

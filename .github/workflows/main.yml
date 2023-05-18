@@ -55,6 +55,9 @@ jobs:
   build:
     needs: test
     uses: ./.github/workflows/deploy.yml
+    with:
+      inputs:
+        testArtifactName: test-report
 
   lint:
     runs-on: ubuntu-latest
