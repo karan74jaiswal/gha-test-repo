@@ -8,9 +8,16 @@ on:
         type: string
     secrets:
       MONGODB_DB_USERNAME:
+    outputs:
+      result:
+        description:
+        value: ${{jobs.deployment.outputs.ArtifactsFiles}}
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    outputs:
+      ArtifactsFiles: ${{steps.artifactFiles.outputs.ArtifactsFiles}}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3.5.2
@@ -39,6 +46,12 @@ jobs:
         with:
           name: build_files
           path: dist
+
+      - name: Printing the contents of the Artifacts
+        id: artifactFiles
+        run: |
+          ls
+          echo "::set-output name=ArtifactsFiles:: These are the build files"
 
       - name: Printing Secrets
         run: echo "${{secrets.MONGODB_DB_USERNAME}}"
