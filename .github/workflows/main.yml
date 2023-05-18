@@ -45,7 +45,7 @@ jobs:
         if: ${{failure() && steps.running-tests.outcome == 'failure'}}
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: test-report
+          name: test_report
           path: test.json
 
       - name: Getting the Job Output
@@ -56,7 +56,7 @@ jobs:
     needs: test
     uses: ./.github/workflows/deploy.yml
     with:
-      testArtifactName: test-report
+      testArtifactName: test_report
 
   lint:
     runs-on: ubuntu-latest
